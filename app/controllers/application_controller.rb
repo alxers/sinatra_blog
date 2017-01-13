@@ -1,5 +1,5 @@
 class App < Sinatra::Application
   get '/' do
-    erb :post
+    erb :index
   end
 end
