@@ -1,5 +1,9 @@
-require File.join(File.dirname(__FILE__), 'app')
+require 'sinatra/base'
+require 'pry'
 
-set :run, false
+# pull in the helpers and controllers
+Dir.glob('./app/{helpers,controllers}/*.rb').each { |file| require file }
 
-run App.new
+# map the controllers to routes
+map('/post') { run PostsController }
+map('/') { run ApplicationController }
