@@ -8,4 +8,8 @@ class ApplicationController < Sinatra::Base
     title 'Not Found!'
     erb :not_found
   end
+
+  get '/' do
+    erb :index
+  end
 end
