@@ -4,6 +4,7 @@ require 'time'
 
 class Blog < Sinatra::Base
   set :root, File.expand_path('../..', __FILE__)
+  set :articles, []
 
   Dir.glob "#{root}/articles/*.md" do |file|
     # Parse metadata and content from file
@@ -20,5 +21,14 @@ class Blog < Sinatra::Base
     get "/#{article.slug}" do
       erb :post, locals: { article: article }
     end
+
+    articles << article
+  end
+
+  articles.sort_by! { |article| article.date }
+  articles.reverse!
+
+  get '/' do
+    erb :index
   end
 end
