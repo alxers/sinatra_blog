@@ -7,6 +7,10 @@ class GithubHook < Sinatra::Base
     load app.settings.app_file
 
     content_type :txt
-    "ok"
+    if settings.autopull?
+      `git pull 2>&1`
+    else
+      'ok'
+    end
   end
 end
