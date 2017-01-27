@@ -9,6 +9,12 @@ class GithubHook < Sinatra::Base
     set :commit_date, Time.parse(date)
   end
 
+  before do
+    cache_control :public, :must_revalidate
+    etag settings.commit_hash
+    last_modified settings.commit_date
+  end
+
   post '/update' do
     app.settings.reset!
     load app.settings.app_file
