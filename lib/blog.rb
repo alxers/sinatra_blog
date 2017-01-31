@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'ostruct'
 require 'time'
+require 'pry'
 
 class Blog < Sinatra::Base
   set :root, File.expand_path('../..', __FILE__)
@@ -12,6 +13,8 @@ class Blog < Sinatra::Base
 
     # Generate metadata object
     article = OpenStruct.new
+
+    # Correct filename example: article_title.31012017.md
     article.date = file.split('.')[-2]
     article.title = file.split('.')[0..-3].join('.')
 
