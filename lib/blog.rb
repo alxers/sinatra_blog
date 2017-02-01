@@ -16,9 +16,9 @@ class Blog < Sinatra::Base
 
     # Correct filename example: article_title.31012017.md
     article.date = file.split('.')[-2]
+    #TODO: fix title
     article.title = file.split('.')[0..-3].join('.')
-
-    article.date = Time.parse article.date.to_s
+    article.content = content
     article.slug = File.basename(file, '.md')
 
     get "/#{article.slug}" do
