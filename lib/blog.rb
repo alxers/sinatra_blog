@@ -15,11 +15,10 @@ class Blog < Sinatra::Base
     article = OpenStruct.new
 
     # Correct filename example: article_title.31012017.md
-    article.date = file.split('.')[-2]
-    #TODO: fix title
-    article.title = file.split('.')[0..-3].join('.')
+    filename = file.match(%r{[^\/]+$})[0]
+    article.title, article.date, article.ext = filename.split('.')
     article.content = content
-    article.slug = File.basename(file, '.md')
+    article.slug = File.basename(file, article.ext)
 
     get "/#{article.slug}" do
       erb :post, locals: { article: article }
@@ -28,7 +27,7 @@ class Blog < Sinatra::Base
     articles << article
   end
 
-  articles.sort_by! { |article| article.date }
+  articles.sort_by!(&:date)
   articles.reverse!
 
   get '/' do
